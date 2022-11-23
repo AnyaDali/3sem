@@ -1,0 +1,22 @@
+#include <iostream>
+
+//Корень
+
+void MySqrt(int number_, int& res)
+{
+	for (int i = 0; i*i <= number_; ++i)
+	{
+		res = i;
+	}
+}
+
+int main()
+{
+	int number_;
+	scanf_s("%d", &number_);
+	int res = 0;
+	MySqrt(number_,res);
+	printf("%d", res);
+
+	return 0;
+}
