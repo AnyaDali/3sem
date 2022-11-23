@@ -1,0 +1,185 @@
+#include <iostream>
+using namespace std;
+
+class DoubleArray {
+	double* arr;
+	size_t sz;
+	size_t capacity;
+
+public:
+	DoubleArray(size_t n = 0, double x = 0.0) 
+	{
+		capacity = n > 0 ? n : 1;
+		sz = n;
+		arr = new double[capacity];
+		for (size_t i = 0; i < sz; ++i)
+		{
+			arr[i] = x;
+		}
+	}
+
+	DoubleArray(const DoubleArray& obj)
+	{
+		capacity = obj.capacity;
+		sz = obj.sz;
+		arr = new double[sz];
+		for (size_t i = 0; i < sz; ++i)
+		{
+			arr[i] = obj[i];
+		}
+	}
+
+	double& front() {
+		return arr[0];
+	}
+
+	const double& front() const {
+		return arr[0];
+	}
+
+	double& back()
+	{
+		return arr[sz - 1];
+	}
+
+	const double& back() const {
+		return arr[sz - 1];
+	}
+
+	double& operator[](size_t ind)
+	{
+		return arr[ind];
+	}
+
+	const double& operator[](size_t ind) const
+	{
+		return arr[ind];
+	}
+
+	double& At(size_t ind)
+	{
+		if (ind >= sz)
+		{
+			throw "Out of range";
+		}
+		return arr[ind];
+	}
+
+	const double& At(size_t ind) const
+	{
+		if (ind >= sz)
+		{
+			throw "Out of range";
+		}
+		return arr[ind];
+	}
+
+	bool Empty() const
+	{
+		return sz == 0;
+	}
+
+	void push_back(double value)
+	{
+		if (capacity == sz)
+		{
+			capacity *= 2;
+			double* help = new double[capacity];
+			for (size_t i = 0; i < sz; ++i)
+			{
+				help[i] = arr[i];
+			}
+			delete[] arr;
+			arr = help;
+		}
+		arr[sz] = value;
+		++sz;
+	}
+
+	void Insert(size_t ind, double value)
+	{
+		if (capacity == sz)
+		{
+			capacity *= 2;
+			double* help = new double[capacity];
+			for (size_t i = 0; i < ind; ++i)
+			{
+				help[i] = arr[i];
+			}
+			help[ind] = value;
+			for (size_t i = ind - 1; i < sz; ++i)
+			{
+				help[i] = arr[i - 1];
+			}
+			delete[] arr;
+			arr = help;
+		}
+		else
+		{
+			for (size_t i = sz-1; i >= ind; --i)
+			{
+				arr[i] = arr[i-1];
+			}
+			arr[ind] = value;
+		}
+		++sz;
+	}
+
+	DoubleArray& operator=(const DoubleArray& obj)
+	{
+		if (&obj == this)
+			return *this;
+		
+		sz = obj.sz;
+		capacity = obj.capacity;
+
+		delete[] arr;
+		arr = new double[capacity];
+		
+		for (size_t i = 0; i < sz; ++i)
+		{
+			arr[i] = obj[i];
+		}
+		
+		return *this;
+	}
+
+	size_t size() const
+	{
+		return sz;
+	}
+
+	void clear() 
+	{
+		sz = 0;
+	}
+
+	~DoubleArray() 
+	{
+		delete[] arr;
+	}
+
+};
+
+int main()
+{
+	DoubleArray x(2, 15);
+	DoubleArray y = x;
+	y.At(0) = 123;
+	y.Insert(4, 1);
+	y.Insert(4, 90);
+	y.Insert(4, 34);
+	y.Insert(4, 5);
+	y.Insert(4, 534);
+	y.Insert(4, 3234);
+	y.Insert(4, 234);
+	y.Insert(4, 3445);
+	y.Insert(4, 0);
+	y.Insert(4, 32);
+	y.Insert(4, 11);
+	for (size_t i = 0; i < y.size(); ++i) {
+		std::cout << y[i] << " ";
+	}
+	std::cout << '\n';
+	return 0;
+}
