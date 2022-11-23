@@ -1,0 +1,152 @@
+#include <iostream>
+
+//Функции работы со списками
+
+struct Node
+{
+	int inform;
+	Node* next;
+};
+
+Node* init_list()
+{
+	return nullptr;
+}
+
+bool Check(Node* first)
+{
+	if (first == nullptr)
+	{
+		return true;
+	}
+	return false;
+}
+
+void Add_begin(Node*& first, int el)
+{
+	Node* q_new = new Node;
+	q_new->inform = el;
+	q_new->next = first;
+
+	first = q_new;
+}
+
+void Add_end(Node*& first, int el)
+{
+	Node* li = new Node;
+	li->inform = el;
+	li->next = nullptr;
+	if (!first)
+	{
+		first = li;
+		return;
+	}
+	Node* Curr = first;
+	while (Curr->next != nullptr)
+	{
+		Curr = Curr->next;
+	}
+	Curr->next = li;
+}
+
+Node* Find(Node* first, int el)
+{
+	Node* Curr = first;
+	while (Curr != nullptr)
+	{
+		if (Curr->inform == el)
+		{
+			return Curr;
+		}
+		Curr = Curr->next;
+	}
+	return nullptr;
+}
+
+Node* Destroy_First_El(Node* first, int el)
+{
+	Node* Curr = first;
+	Node* Prev = nullptr;
+
+	while (Curr != nullptr && Curr->inform != el)
+	{
+		Prev = Curr;
+		Curr = Curr->next;
+	}
+	printf("%p %p\n", Curr, first);
+	if (Curr)
+	{
+		if (Curr == first)
+		{
+			first = Curr->next;
+			printf("%p %p\n", Curr, first);
+		}
+		else
+		{
+			Prev->next = Curr->next;
+		}
+		delete Curr;
+	}
+	printf("%p \n", first);
+	return first;
+}
+
+Node* Destroy_All_El(Node* first, int el)
+{
+	Node* Curr = first;
+	Node* Prev = nullptr;
+	while (Curr->inform == el)
+	{
+		Node* Save = Curr;
+		first = Curr->next;
+		Curr = Curr->next;
+		delete Save;
+	}
+	while (Curr != nullptr)
+	{
+		Node* Save = init_list();
+		if (Curr->inform == el)
+		{
+			Save = Curr;
+			Prev->next = Curr->next;
+			Curr = Curr->next;
+		}
+		else
+		{
+			Prev = Curr;
+			Curr = Curr->next;
+		}
+		delete Save;
+	}
+
+	return first;
+}
+
+void print_list(Node* head)
+{
+	Node* curr = head;
+	printf("{ ");
+	while (curr != nullptr)
+	{
+		printf("%d ", curr->inform);
+		curr = curr->next;
+	}
+	printf("}\n");
+}
+
+void Destroy(Node* first)
+{
+	Node* Curr = first;
+	while (Curr != nullptr)
+	{
+		Node* Prev = Curr;
+		Curr = Curr->next;
+		delete Prev;
+	}
+}
+
+int main()
+{
+
+	return 0;
+}
